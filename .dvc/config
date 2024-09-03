@@ -1,6 +1,8 @@
 [core]
-    remote = dataset-track
+    remote = model-tracker
 ['remote "myremote"']
     url = s3://aws-mlops-pz/dataset
 ['remote "dataset-track"']
     url = s3://aws-mlops-pz/dataset
+['remote "model-tracker"']
+    url = s3://aws-mlops-pz/model
