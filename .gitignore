@@ -6,6 +6,8 @@ venv/
 *.json
 *.csv
 *.pkl
+*.txt
+*.png
 # Archivos de salida de Jupyter Notebooks
 .ipynb_checkpoints/
 
