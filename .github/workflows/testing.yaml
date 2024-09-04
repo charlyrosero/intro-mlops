@@ -1,6 +1,12 @@
-name: Minimal OIDC Test
-on:
+name: Testing API
+on: 
   workflow_dispatch:
+  push:
+    branches:
+      - workflow-testing-api
+  pull_request:
+    branches:
+      - workflow-testing-api
 permissions:
   id-token: write
   contents: read
