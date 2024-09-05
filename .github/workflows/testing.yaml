@@ -40,4 +40,4 @@ jobs:
       - name: Test API
         run: |
           dvc pull model/model.pkl -r model-tracker
-          pytest tests/tests_api.py
+          pytest test/test_api.py
