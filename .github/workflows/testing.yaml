@@ -31,7 +31,7 @@ jobs:
           source venv/bin/activate
       - name: Installing dependencies
         run: |
-          pip install dvc[s3]
+          pip install "dvc[s3]==3.2.0"
           pip install -r requirements_test.txt
       - name: Test API
         run: |
