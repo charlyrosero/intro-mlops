@@ -41,7 +41,7 @@ jobs:
           dvc push model/model.pkl.dvc -r model-tracker
       - name: Commit and push changes
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "charly.rosero@gmail.com"
           git config --global user.name "github-actions[bot]"
           git add .
           git commit -m "Update model"
