@@ -33,6 +33,10 @@ jobs:
         run: |
           pip install "dvc[s3]==3.2.0"
           pip install -r requirements_test.txt
+      - name: Debug DVC and S3
+        run: |
+          dvc doctor
+          aws s3 ls s3://aws-mlops-pz/model/files/
       - name: Test API
         run: |
           dvc pull model/model.pkl -r model-tracker
