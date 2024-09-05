@@ -39,7 +39,7 @@ jobs:
           echo "Training model completed"
           dvc add model/model.pkl -r model-tracker --to-remote
           dvc push model/model.pkl.dvc -r model-tracker
-      - name: Commit and push changes
+      - name: Commit and push changes v1
         run: |
           git config --global user.email "charly.rosero@gmail.com"
           git config --global user.name "github-actions[bot]"
