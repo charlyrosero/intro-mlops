@@ -2,7 +2,7 @@ name: Continuously Training Model
 on:
   push:
     branches:
-      - workflow-continous-training
+      - workflow-continuos-training
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
