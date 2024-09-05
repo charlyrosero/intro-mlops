@@ -2,8 +2,8 @@ stages:
   prepare:
     cmd: python src/prepare.py
     outs:
-    - dataset/fulldata.csv
+    - dataset/full_data.csv
   training:
     cmd: python src/train.py
     deps:
-    - dataset/fulldata.csv
+    - dataset/full_data.csv
