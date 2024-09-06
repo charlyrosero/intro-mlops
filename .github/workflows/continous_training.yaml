@@ -47,8 +47,8 @@ jobs:
           git commit -m "Update model"
       - uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: ${{ github.ref_name }}
+          github_token: ${{ secrets.PAT_TOKEN }}  
+          branch: ${{ github.ref_name }}  
       - uses: iterative/setup-cml@v1
       - name: Push Metrics
         env:
