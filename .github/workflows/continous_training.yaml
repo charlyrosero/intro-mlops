@@ -53,6 +53,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}  
           branch: ${{ github.ref }}  
       - uses: iterative/setup-cml@v1
+      - name: list files
+        run: |
+          ls -la
       - name: Push Metrics
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
