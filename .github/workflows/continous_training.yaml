@@ -13,7 +13,10 @@ on:
         default: 'runnint CT'
 permissions:
   id-token: write # need this for OIDC  
-  contents: read
+  contents: write
+  pull-requests: write 
+  issues: read
+  packages: none
 jobs:
   continuous-training:
     runs-on: ubuntu-latest
