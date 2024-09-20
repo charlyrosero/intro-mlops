@@ -1,6 +1,6 @@
 import requests
 
-url ="http://35.175.211.120:8000/v1/prediction"
+url ="http://18.212.121.39:8000/v1/prediction"
       
 json = {
     'opening_gross':8330681,
@@ -16,4 +16,4 @@ json = {
 
 response = requests.post(url=url, json=json)
 
-print(response.json)
+print(response.text)
