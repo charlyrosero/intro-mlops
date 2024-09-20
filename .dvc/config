@@ -1,0 +1,6 @@
+[core]
+    remote = model-track
+['remote "dataset-track"']
+    url = s3://aws-mlops-platzi/dataset
+['remote "model-track"']
+    url = s3://aws-mlops-platzi/model

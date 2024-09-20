@@ -1,0 +1,59 @@
+name: Continuously Training Model
+on:  
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for triggering the workflow'
+        required: false
+        default: 'runnint CT'
+permissions:
+  id-token: write # need this for OIDC  
+  contents: write
+  pull-requests: write 
+  issues: read
+  packages: none
+jobs:
+  continuous-training:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-session-name: aws_testing_session
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Train Model
+        run: |
+          pip3 install virtualenv
+          virtualenv venv
+          source venv/bin/activate
+          pip install "dvc[s3]==3.2.0"
+          pip install -r src/requirements.txt          
+          dvc pull model/model.pkl -r model-tracker          
+          dvc unprotect model/model.pkl
+          dvc repro -f
+          echo "Training model completed"
+          dvc add model/model.pkl -r model-tracker --to-remote
+          dvc push model/model.pkl.dvc -r model-tracker
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "charly.rosero@gmail.com"
+          git config --global user.name "github-actions[bot]"
+          git add .
+          git commit -m "Update model"
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  
+          branch: ${{ github.ref }}  
+      - uses: iterative/setup-cml@v2
+      - name: Push metrics
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat report.txt >> report.md 
+          echo "![](./prediction_behavior.png)" >> report.md
+          cml comment create --publish report.md

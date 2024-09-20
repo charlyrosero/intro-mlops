@@ -1,0 +1,43 @@
+name: Testing API
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - workflow-testing-api
+  pull_request:
+    branches:
+      - workflow-testing-api
+permissions:
+  id-token: write # need this for OIDC  
+  contents: read
+jobs:
+  testing-api:
+    name: Testing-api in Github Actions
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-session-name: aws_testing_session
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Creating and activating virtualenv
+        run: |
+          pip3 install virtualenv
+          virtualenv venv
+          source venv/bin/activate
+      - name: Installing dependencies
+        run: |
+          pip install "dvc[s3]==3.2.0"
+          pip install -r requirements_test.txt
+      - name: Debug DVC and S3
+        run: |
+          dvc doctor
+          aws s3 ls s3://aws-mlops-pz/model/files/
+      - name: Test API
+        run: |
+          dvc pull model/model.pkl -r model-tracker
+          pytest test/test_api.py

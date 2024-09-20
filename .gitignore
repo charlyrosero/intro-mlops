@@ -1,0 +1,32 @@
+# Entornos virtuales
+venv/
+.env/
+*.env
+
+*.json
+*.csv
+*.pkl
+report.txt
+*.png
+# Archivos de salida de Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Archivos de datos grandes
+*.csv
+*.h5
+*.hdf5
+*.parquet
+*.pkl
+*.joblib
+
+# Archivos de caché y logs
+__pycache__/
+*.py[cod]
+*.log
+
+# Archivos de configuración específicos de IDEs
+.vscode/
+.idea/
+
+# Otros archivos innecesarios
+.DS_Store
