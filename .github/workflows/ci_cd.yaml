@@ -1,28 +1,5 @@
 # This workflow will create and push a new container image to Amazon ECR,
 # and then deploy a new task definition to Amazon ECS, when a version is created
-#
-# To use this workflow, you will need to complete the following configuration steps:
-#
-#1. Create an ECR repository to store your images.
-# For example: `aws ecr create-repository --repository-name my-ecr-repo --region us-east-2`.
-# Replace the value of `ECR_REPOSITORY` in the workflow below with the name of your repository.
-# Replace the value of `aws-region` in the following workflow with the region of your repository.
-#
-#2. Create an ECS Task Definition, an ECS Cluster, and an ECS Service.
-# For example, follow the getting started guide in the ECS console:
-# https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
-# Replace the values of `service` and `cluster` in the workflow below with the names of your service and cluster.
-#
-#3. Save your ECS task definition as a JSON file in your repository or proceed to download it with the flow used.
-# The format should follow the output of `aws ecs register-task-definition --generate-cli-skeleton`.
-# Replace the value of `task-definition` in the workflow below with the name of your JSON file.
-# Replace the value of `container-name` in the workflow below with the name of the container
-# in the `containerDefinitions` section of the task definition.
-#
-# 4. Store an IAM user access key in the GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
-# See the documentation for each action used below for the recommended IAM policies for this IAM user.
-# and best practices on handling of access key credentials.
-
 
 name: Continuous Integration/Continuous Deployment
 on: [push]
@@ -57,6 +34,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -75,7 +57,7 @@ jobs:
           pipenv install
           pipenv run python
           pip install dvc[s3]
-          dvc pull model/model.pkl.dvc -r model-track
+          pipenv run dvc pull model/model.pkl.dvc -r model-tracker
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
