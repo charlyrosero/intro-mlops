@@ -75,7 +75,7 @@ jobs:
           pipenv install
           pipenv run python
           pip install dvc[s3]
-          dvc pull model/model.pkl.dvc -r model-tracker
+          dvc pull model/model.pkl.dvc -r model-track
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
